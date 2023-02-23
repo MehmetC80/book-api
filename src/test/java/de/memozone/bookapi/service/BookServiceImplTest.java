@@ -3,12 +3,16 @@ package de.memozone.bookapi.service;
 import de.memozone.bookapi.entity.Book;
 import de.memozone.bookapi.entity.BookEntity;
 import de.memozone.bookapi.repository.BookRepository;
+import org.apache.catalina.LifecycleState;
+import org.checkerframework.checker.nullness.qual.EnsuresKeyForIf;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static de.memozone.bookapi.TestData.testBook;
@@ -70,6 +74,21 @@ class BookServiceImplTest {
         final Optional<Book> result = underTest.findById(book.getIsbn());
         assertEquals(Optional.of(book), result);
 
+    }
+
+    @Test
+    public void testListBooksReturnsEmptyListWhenNoBooksExists(){
+        when(bookRepository.findAll()).thenReturn(new ArrayList<BookEntity>());
+        final List<Book> result = underTest.listBooks();
+        assertEquals(0,result.size());
+    }
+
+    @Test
+    public void testListBooksReturnsListOdBooksWhenBooksExists(){
+        final BookEntity bookEntity = testBookEntity();
+        when(bookRepository.findAll()).thenReturn(List.of(bookEntity));
+        final List<Book> result = underTest.listBooks();
+        assertEquals(1,result.size());
     }
 
 }

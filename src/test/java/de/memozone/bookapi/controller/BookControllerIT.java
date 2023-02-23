@@ -37,8 +37,8 @@ public class BookControllerIT {
         final String bookJson = objectMapper.writeValueAsString(book);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/api/books/" + book.getIsbn())
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(bookJson))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(bookJson))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value(book.getIsbn()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value(book.getTitle()))
@@ -67,5 +67,29 @@ public class BookControllerIT {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.author").value(book.getAuthor()));
     }
 
+
+    @Test
+    public void testThatListBooksReturnsHttp200EmptyListWhenNoBooksExists() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/books"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("[]"));
+
+    }
+
+    @Test
+    public void testThatListBooksReturnsHttp200EmptyListWhenBooksExists() throws Exception {
+
+        final Book book = TestData.testBook();
+        bookService.create(book);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/books"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].isbn").value(book.getIsbn()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value(book.getTitle()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].author").value(book.getAuthor()));
+
+
+    }
 
 }

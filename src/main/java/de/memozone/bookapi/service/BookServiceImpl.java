@@ -6,7 +6,9 @@ import de.memozone.bookapi.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -31,6 +33,13 @@ public class BookServiceImpl implements BookService {
     public Optional<Book> findById(String isbn) {
         final Optional<BookEntity> foundBook = bookRepository.findById(isbn);
         return foundBook.map(book -> bookEntityToBook(book));
+
+    }
+
+    @Override
+    public List<Book> listBooks() {
+        final List<BookEntity> foundBooks = bookRepository.findAll();
+        return foundBooks.stream().map(book -> bookEntityToBook(book)).collect(Collectors.toList());
 
     }
 
