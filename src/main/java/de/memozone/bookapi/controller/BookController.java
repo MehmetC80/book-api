@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api")
 public class BookController {
@@ -29,6 +31,15 @@ public class BookController {
         final ResponseEntity<Book> response = new ResponseEntity<Book>(savedBook, HttpStatus.CREATED);
 
         return response;
+    }
+
+    @GetMapping(path = "/books/{isbn}")
+    public ResponseEntity<Book> getBookById(@PathVariable("isbn") final String isbn){
+
+        final Optional<Book> foundBook = bookService.findById(isbn);
+
+       return foundBook.map(book -> new ResponseEntity<Book>(book,HttpStatus.OK))
+                .orElse(new ResponseEntity<Book>(HttpStatus.NOT_FOUND));
     }
 
 
