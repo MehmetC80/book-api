@@ -48,6 +48,13 @@ public class BookServiceImpl implements BookService {
 
     }
 
+    @Override
+    public void deleteBookById(String isbn) {
+
+        bookRepository.deleteById(isbn);
+
+    }
+
 
     private BookEntity bookToBookEntity(Book book) {
         return BookEntity.builder()
