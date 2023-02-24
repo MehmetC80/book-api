@@ -18,6 +18,7 @@ import java.util.Optional;
 import static de.memozone.bookapi.TestData.testBook;
 import static de.memozone.bookapi.TestData.testBookEntity;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
@@ -90,5 +91,23 @@ class BookServiceImplTest {
         final List<Book> result = underTest.listBooks();
         assertEquals(1,result.size());
     }
+
+
+    @Test
+    public void testBookExistsReturnsFalseWhenBookDoesntExist(){
+
+   when(bookRepository.existsById(any())).thenReturn(false);
+   final boolean result = underTest.isBookExixts(testBook());
+   assertEquals(false,result);
+    }
+
+    @Test
+    public void testBookExistsReturnsTrueWhenBookDoesExist(){
+
+        when(bookRepository.existsById(any())).thenReturn(true);
+        final boolean result = underTest.isBookExixts(testBook());
+        assertEquals(true,result);
+    }
+
 
 }

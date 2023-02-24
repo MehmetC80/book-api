@@ -22,6 +22,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public Boolean isBookExixts(Book book) {
+        return bookRepository.existsById(book.getIsbn());
+    }
+
+    @Override
     public Book create(Book book) {
 
         final BookEntity bookEntity = bookToBookEntity(book);

@@ -7,6 +7,9 @@ import java.util.Optional;
 
 public interface BookService {
 
+
+    Boolean isBookExixts(Book book);
+
     Book create(Book book);
 
     Optional<Book> findById(String isbn);
