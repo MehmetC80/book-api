@@ -10,7 +10,7 @@ public interface BookService {
 
     Boolean isBookExixts(Book book);
 
-    Book create(Book book);
+    Book save(Book book);
 
     Optional<Book> findById(String isbn);
 

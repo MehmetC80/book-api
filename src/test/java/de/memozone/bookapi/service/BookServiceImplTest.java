@@ -3,8 +3,7 @@ package de.memozone.bookapi.service;
 import de.memozone.bookapi.entity.Book;
 import de.memozone.bookapi.entity.BookEntity;
 import de.memozone.bookapi.repository.BookRepository;
-import org.apache.catalina.LifecycleState;
-import org.checkerframework.checker.nullness.qual.EnsuresKeyForIf;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -52,7 +51,7 @@ class BookServiceImplTest {
         final BookEntity bookEntity = testBookEntity();
 
         when(bookRepository.save(eq(bookEntity))).thenReturn(bookEntity);
-        final Book result = underTest.create(book);
+        final Book result = underTest.save(book);
 
         assertEquals(book, result);
     }
