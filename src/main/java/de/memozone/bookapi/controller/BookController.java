@@ -57,5 +57,11 @@ public class BookController {
         return new ResponseEntity<List<Book>>(bookService.listBooks(), HttpStatus.OK);
     }
 
+    @DeleteMapping(path = "/books/{isbn}")
+    public ResponseEntity<?> deleteBook(@PathVariable("isbn") String isbn){
+
+        bookService.deleteBookById(isbn);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
 }
